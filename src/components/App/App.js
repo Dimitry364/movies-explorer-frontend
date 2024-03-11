@@ -22,7 +22,7 @@ function App() {
           path='/'
           element={
             <>
-              <Header loggedIn={true} isLoading={isLoading} />
+              <Header loggedIn={false} isLoading={isLoading} />
               <Main />
               <Footer />
             </>
