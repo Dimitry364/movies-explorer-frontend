@@ -10,7 +10,7 @@ function Header({ loggedIn, isLoading }) {
 
   return (
     <header className={`header ${pathname !== '/' ? '' : 'header_auth'}`}>
-      <Link to='/' className='header_link'>
+      <Link to='/' className='header__link'>
         <img
           className='header__logo'
           src={logo}

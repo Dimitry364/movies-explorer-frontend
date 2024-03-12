@@ -4,7 +4,7 @@ import logo from '../../images/logo.svg';
 
 function Login() {
   return (
-    <section className='form'>
+    <main className='form'>
       <div className='form__container'>
         <Link to='/' className='form__link'>
           <img
@@ -13,7 +13,7 @@ function Login() {
             alt='Логотип Movies Explorer'
           ></img>
         </Link>
-        <h2 className='form__title'>Рады видеть!</h2>
+        <h1 className='form__title'>Рады видеть!</h1>
         <form className='form__inputs'>
           <div className='form__items'>
             <label className='form__item'>
@@ -39,7 +39,11 @@ function Login() {
               </p>
             </label>
           </div>
-          <button type='submit' className='form__button form__button-reg' disabled>
+          <button
+            type='submit'
+            className='form__button form__button-reg'
+            disabled
+          >
             Войти
           </button>
         </form>
@@ -50,7 +54,7 @@ function Login() {
           </Link>
         </p>
       </div>
-    </section>
+    </main>
   );
 }
 

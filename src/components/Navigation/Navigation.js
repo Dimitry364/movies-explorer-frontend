@@ -63,7 +63,7 @@ const Navigation = () => {
               className={`navigation__icon ${
                 pathname === '/' ? '' : 'navigation__icon_profile'
               }`}
-              alt='Иконка профиля'
+              title='Иконка профиля'
             ></div>
           </NavLink>
         </div>

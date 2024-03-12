@@ -31,7 +31,7 @@ const AboutMe = () => {
           </div>
         </div>
 
-        <img src={avatar} alt='about-me' className='about-me__image' />
+        <img src={avatar} alt='Моё фото' className='about-me__image' />
       </div>
     </section>
   );

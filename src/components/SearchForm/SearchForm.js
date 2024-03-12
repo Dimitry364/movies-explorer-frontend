@@ -17,13 +17,16 @@ const SearchForm = () => {
   return (
     <form className='search'>
       <div className='search__container'>
+        <div className='search__area'>
         {width > breakpoint ? <div className='search__icon'></div> : ''}
         <input
           className='search__input'
           placeholder='Фильм'
           type='text'
+          minLength='1'
           required
-        />
+          />
+          </div>
         <div className='search__interface'>
           <button type='submit' className='search__button'>
             Найти

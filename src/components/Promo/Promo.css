@@ -20,63 +20,65 @@
 }
 
 .promo__logo {
+  display: flex;
   background-image: url('../../images/promo-logo.svg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  margin-left: 418px;
+  align-self: flex-end;
   width: 722px;
   height: 244px;
 }
 
-@media all and (max-width: 800px) {
+@media screen and (max-width: 1080px) {
   .promo {
     flex-direction: column-reverse;
     align-items: center;
-    padding: 0 0 70px;
+    padding: calc((100vw - 768px) / (1080 - 768) * (50 - 0) + 0px)
+      calc((100vw - 768px) / (1080 - 768) * (70 - 0) + 0px)
+      calc((100vw - 768px) / (1080 - 768) * (60 - 70) + 70px);
   }
 
   .promo__container {
     align-items: center;
     text-align: center;
-    gap: 140px;
+    gap: calc((100vw - 768px) / (1080 - 768) * (102 - 140) + 140px);
   }
 
   .promo__title {
-    margin: 303px auto 0;
-    max-width: 680px;
+    margin: calc((100vw - 768px) / (1080 - 768) * (0 - 303) + 303px) auto 0;
+    max-width: calc((100vw - 768px) / (1080 - 768) * (626 - 680) + 680px);
     font-size: 40px;
-    line-height: 50px;
+    line-height: calc((100vw - 768px) / (1080 - 768) * (52 - 50) + 50px);
   }
 
   .promo__logo {
-    margin-left: 0;
+    margin-right: calc((100vw - 768px) / (1080 - 768) * (0 - 44) + 44px);
     padding: 0;
-    width: 680px;
-    height: 230px;
+    width: calc((100vw - 768px) / (1080 - 768) * (722 - 680) + 680px);
+    height: calc((100vw - 768px) / (1080 - 768) * (244 - 230) + 230px);
   }
 }
 
-@media all and (max-width: 540px) {
+@media screen and (max-width: 767px) {
   .promo {
-    padding: 0 0 40px;
+    padding: 0 0 calc((100vw - 320px) / (767 - 320) * (70 - 40) + 40px);
   }
 
   .promo__container {
-    gap: 60px;
+    gap: calc((100vw - 320px) / (767 - 320) * (140 - 60) + 60px);
   }
 
   .promo__title {
-    margin: 183px auto 0;
-    font-size: 31px;
-    line-height: 39px;
-    letter-spacing: -0.04em;
+    margin: calc((100vw - 320px) / (767 - 320) * (303 - 183) + 183px) auto 0;
+    font-size: calc((100vw - 320px) / (767 - 320) * (40 - 31) + 31px);
+    line-height: calc((100vw - 320px) / (767 - 320) * (50 - 39) + 39px);
   }
 
   .promo__logo {
-    margin-left: 0;
-    width: 320px;
+    margin-right: calc((100vw - 320px) / (767 - 350) * (0 - 0) + 0px);
+    width: calc((100vw - 320px) / (767 - 320) * (680 - 320) + 320px);
     height: 230px;
-    padding: 0;
+    align-self: auto;
   }
 }

@@ -20,14 +20,14 @@
 .search__icon {
   width: 34px;
   height: 34px;
-  margin-left: 20px;
+  margin-left: 15px;
   background-image: url('../../images/icon-search.svg');
   background-repeat: no-repeat;
 }
 
 .search__input {
   width: 100%;
-  padding: 0 10px;
+  padding: 0;
   outline: none;
   border: none;
   background-color: #2f2f2f;
@@ -41,6 +41,10 @@
 .search__input::placeholder {
   padding-left: 10px;
   color: #8b8b8b;
+}
+
+.search__input:focus {
+  border-bottom: 1px solid #424242;
 }
 
 .search__interface {
@@ -91,6 +95,11 @@
   width: 36px;
   height: 20px;
   margin-left: 29px;
+  transition: opacity 0.2s linear;
+}
+
+.search__tumbler:hover {
+  opacity: 0.6;
   cursor: pointer;
 }
 
@@ -124,6 +133,12 @@
   background-color: #a0a0a0;
 }
 
+.search__area {
+  display: flex;
+  width: 100%;
+  gap: 7px;
+}
+
 @media screen and (max-width: 800px) {
   .search {
     flex-direction: column;
@@ -154,6 +169,12 @@
 
   .search__films {
     margin: 20px 13px 20px 0;
+  }
+
+  .search__icon {
+    width: 34px;
+    height: 34px;
+    margin-left: 20px;
   }
 }
 

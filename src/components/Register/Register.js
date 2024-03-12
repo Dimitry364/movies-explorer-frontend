@@ -4,7 +4,7 @@ import logo from '../../images/logo.svg';
 
 function Register() {
   return (
-    <section className='form'>
+    <main className='form'>
       <div className='form__container'>
         <Link to='/' className='form__link'>
           <img
@@ -13,7 +13,7 @@ function Register() {
             alt='Логотип Movies Explorer'
           ></img>
         </Link>
-        <h2 className='form__title'>Добро пожаловать!</h2>
+        <h1 className='form__title'>Добро пожаловать!</h1>
         <form className='form__inputs'>
           <div className='form__items'>
             <label className='form__item'>
@@ -33,6 +33,7 @@ function Register() {
                 type='email'
                 className='form__field'
                 placeholder='Введите E-mail'
+                minLength='6'
                 required
               />
             </label>
@@ -59,7 +60,7 @@ function Register() {
           </Link>
         </p>
       </div>
-    </section>
+    </main>
   );
 }
 
