@@ -18,7 +18,6 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-// import Preloader from '../Preloader/Preloader';
 import MainApi from '../../utils/MainApi';
 import Token from '../../utils/token';
 import { CONFLICT_ERROR } from '../../utils/constants';
