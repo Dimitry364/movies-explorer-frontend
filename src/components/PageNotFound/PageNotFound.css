@@ -30,6 +30,8 @@
 
 .not-found__link {
   width: fit-content;
+  border: none;
+  background-color: transparent;
   align-self: center;
   color: #4285f4;
   font-size: 14px;

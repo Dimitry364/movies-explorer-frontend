@@ -10,7 +10,7 @@ const SavedMovies = () => {
   const [preloader, setPreloader] = useState(false);
   const [errorText, setErrorText] = useState('');
   const [filmsTumbler, setFilmsTumbler] = useState(false);
-  const [filmsInputSearch, setFilmsInputSearch] = useState('');
+  // const [filmsInputSearch, setFilmsInputSearch] = useState('');
   const [filmsShowed, setFilmsShowed] = useState([]);
   const [filmsShowedWithTumbler, setFilmsShowedWithTumbler] = useState([]);
   const [filmsWithTumbler, setFilmsWithTumbler] = useState([]);
@@ -56,11 +56,11 @@ const SavedMovies = () => {
       if (inputSearch) {
         localStorage.setItem('savedFilms', JSON.stringify(filterData));
         localStorage.setItem('savedFilmsTumbler', tumbler);
-        localStorage.setItem('savedFilmsInputSearch', inputSearch);
+        // localStorage.setItem('savedFilmsInputSearch', inputSearch);
       } else {
         localStorage.removeItem('savedFilms');
         localStorage.removeItem('savedFilmsTumbler');
-        localStorage.removeItem('savedFilmsInputSearch');
+        // localStorage.removeItem('savedFilmsInputSearch');
       }
     } catch (err) {
       setErrorText(
@@ -70,7 +70,7 @@ const SavedMovies = () => {
       setFilms([]);
       localStorage.removeItem('savedFilms');
       localStorage.removeItem('savedFilmsTumbler');
-      localStorage.removeItem('savedFilmsInputSearch');
+      // localStorage.removeItem('savedFilmsInputSearch');
     } finally {
       setPreloader(false);
     }
@@ -96,16 +96,16 @@ const SavedMovies = () => {
         setFilms(JSON.parse(localStorageFilms));
         const localStorageFilmsTumbler =
           localStorage.getItem('savedFilmsTumbler');
-        const localStorageFilmsInputSearch = localStorage.getItem(
-          'savedFilmsInputSearch'
-        );
+        // const localStorageFilmsInputSearch = localStorage.getItem(
+          // 'savedFilmsInputSearch'
+        // );
 
         if (localStorageFilmsTumbler) {
           setFilmsTumbler(localStorageFilmsTumbler === 'true');
         }
-        if (localStorageFilmsInputSearch) {
-          setFilmsInputSearch(localStorageFilmsInputSearch);
-        }
+        // if (localStorageFilmsInputSearch) {
+        //   setFilmsInputSearch(localStorageFilmsInputSearch);
+        // }
       } else {
         try {
           const data = await mainApi.getMovies();
@@ -124,7 +124,7 @@ const SavedMovies = () => {
       <SearchForm
         handleGetMovies={handleGetMovies}
         filmsTumbler={filmsTumbler}
-        filmsInputSearch={filmsInputSearch}
+        // filmsInputSearch={filmsInputSearch}
         handleGetMoviesTumbler={handleGetMoviesTumbler}
       />
       {preloader && <Preloader />}

@@ -69,17 +69,18 @@ function Movies() {
     if (tumbler) {
       setFilmsShowedWithTumbler(filmsShowed);
       setFilmsWithTumbler(films);
-      filterDataShowed = filmsShowed.filter(({ duration }) => duration <= SHORT_MOVIE);
+      filterData = filmsShowed.concat(films);
       filterData = films.filter(({ duration }) => duration <= SHORT_MOVIE);
+      filterDataShowed = filterData.splice(0, MoviesCount[0]);
     } else {
       filterDataShowed = filmsShowedWithTumbler;
       filterData = filmsWithTumbler;
     }
 
-    localStorage.setItem(
-      'films',
-      JSON.stringify(filterDataShowed.concat(filterData))
-    );
+    // localStorage.setItem(
+    //   'films',
+    //   JSON.stringify(filterDataShowed.concat(filterData))
+    // );
     localStorage.setItem('filmsTumbler', tumbler);
     setFilmsShowed(filterDataShowed);
     setFilms(filterData);
@@ -140,6 +141,7 @@ function Movies() {
     }
 
     const localStorageFilmsTumbler = localStorage.getItem('filmsTumbler');
+    console.log(localStorageFilmsTumbler);
     const localStorageFilmsInputSearch =
       localStorage.getItem('filmsInputSearch');
 
