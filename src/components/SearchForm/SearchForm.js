@@ -1,40 +1,77 @@
 import './SearchForm.css';
-import React from 'react';
+import { useEffect, useState } from 'react';
 
-const SearchForm = () => {
-  const [width, setWidth] = React.useState(window.innerWidth);
+const SearchForm = ({
+  handleGetMovies,
+  filmsTumbler,
+  filmsInputSearch,
+  handleGetMoviesTumbler,
+}) => {
+  const [inputSearch, setInputSearch] = useState('');
+  const [tumbler, setTumbler] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
+
   const breakpoint = 540;
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResizeWindow = () => setWidth(window.innerWidth);
-    // подписываемся на событие изменение размера окна
     window.addEventListener('resize', handleResizeWindow);
     return () => {
-      // отписыввемся
       window.removeEventListener('resize', handleResizeWindow);
     };
   }, []);
+
+  function handleInputChange(evt) {
+    setInputSearch(evt.target.value);
+  }
+
+  function handleTumblerChange() {
+    const newTumbler = !tumbler;
+    setTumbler(newTumbler);
+    handleGetMoviesTumbler(newTumbler);
+  }
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    handleGetMovies(inputSearch);
+  }
+
+  useEffect(() => {
+    setTumbler(filmsTumbler);
+    setInputSearch(filmsInputSearch);
+  }, [filmsTumbler, filmsInputSearch]);
 
   return (
     <form className='search'>
       <div className='search__container'>
         <div className='search__area'>
-        {width > breakpoint ? <div className='search__icon'></div> : ''}
-        <input
-          className='search__input'
-          placeholder='Фильм'
-          type='text'
-          minLength='1'
-          required
+          {width > breakpoint ? <div className='search__icon'></div> : ''}
+          <input
+            className='search__input'
+            placeholder='Фильм'
+            type='text'
+            value={inputSearch || ''}
+            onChange={handleInputChange}
+            required
           />
-          </div>
+        </div>
         <div className='search__interface'>
-          <button type='submit' className='search__button'>
+          <button
+            type='submit'
+            className='search__button'
+            onClick={handleSubmit}
+          >
             Найти
           </button>
           {width > breakpoint ? (
             <div className='search__toggle'>
               <label className='search__tumbler'>
-                <input type='checkbox' className='search__checkbox' />
+                <input
+                  type='checkbox'
+                  className='search__checkbox'
+                  value={tumbler}
+                  checked={tumbler}
+                  onChange={handleTumblerChange}
+                />
                 <span className='search__slider' />
               </label>
               <p className='search__films'>Короткометражки</p>
@@ -47,7 +84,13 @@ const SearchForm = () => {
       {width < breakpoint ? (
         <div className='search__toggle'>
           <label className='search__tumbler'>
-            <input type='checkbox' className='search__checkbox' />
+            <input
+              type='checkbox'
+              className='search__checkbox'
+              value={tumbler}
+              checked={tumbler}
+              onChange={handleTumblerChange}
+            />
             <span className='search__slider' />
           </label>
           <p className='search__films'>Короткометражки</p>

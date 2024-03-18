@@ -112,8 +112,7 @@
   inset: 0;
   background-color: #343434;
   border-radius: 20px;
-  transition: 0.6s;
-  transform: scale(-1, -1);
+  transform: scale(1, 1);
 }
 
 .search__slider::before {
@@ -125,12 +124,14 @@
   bottom: 1px;
   border: 1px solid #fff;
   border-radius: 50%;
-  background-color: #2be080;
+  background-color: #a0a0a0;
+  transition: 0.3s linear;
 }
 
 .search__checkbox:checked + .search__slider::before {
   transform: translateX(16px);
-  background-color: #a0a0a0;
+  background-color: #2be080;
+  transition: 0.3s linear;
 }
 
 .search__area {
