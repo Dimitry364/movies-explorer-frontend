@@ -36,7 +36,8 @@ function Movies() {
     setPreloader(true);
 
     try {
-      const data = await moviesApi.getMovies();
+      const data = JSON.parse(localStorage.getItem('allMovies'));
+
       let filterData = data.filter(({ nameRU }) =>
         nameRU.toLowerCase().includes(inputSearch.toLowerCase())
       );
@@ -63,27 +64,8 @@ function Movies() {
   }
 
   function handleGetMoviesTumbler(tumbler) {
-    let filterDataShowed = [];
-    let filterData = [];
-
-    if (tumbler) {
-      setFilmsShowedWithTumbler(filmsShowed);
-      setFilmsWithTumbler(films);
-      filterData = filmsShowed.concat(films);
-      filterData = films.filter(({ duration }) => duration <= SHORT_MOVIE);
-      filterDataShowed = filterData.splice(0, MoviesCount[0]);
-    } else {
-      filterDataShowed = filmsShowedWithTumbler;
-      filterData = filmsWithTumbler;
-    }
-
-    // localStorage.setItem(
-    //   'films',
-    //   JSON.stringify(filterDataShowed.concat(filterData))
-    // );
+    setFilmsTumbler(tumbler);
     localStorage.setItem('filmsTumbler', tumbler);
-    setFilmsShowed(filterDataShowed);
-    setFilms(filterData);
   }
 
   // Добавление и удаление сохранённых фильмов
@@ -141,7 +123,6 @@ function Movies() {
     }
 
     const localStorageFilmsTumbler = localStorage.getItem('filmsTumbler');
-    console.log(localStorageFilmsTumbler);
     const localStorageFilmsInputSearch =
       localStorage.getItem('filmsInputSearch');
 
@@ -157,9 +138,17 @@ function Movies() {
   //Кнопка ещё
 
   function handleMore() {
+    let diff = (filmsShowed.length - MoviesCount[0]) % MoviesCount[1];
+
+    //чтобы добавлять больше нужно раскомитить
+    //  и в newFilmsShowed поменять - на +
+    // if (diff > 0) {
+    //   diff = MoviesCount[1] - diff;
+    // }
+
     const spliceFilms = films;
     const newFilmsShowed = filmsShowed.concat(
-      spliceFilms.splice(0, MoviesCount[1])
+      spliceFilms.splice(0, MoviesCount[1] - diff)
     );
     setFilmsShowed(newFilmsShowed);
     setFilms(spliceFilms);
@@ -190,6 +179,30 @@ function Movies() {
 
     return countCards;
   }
+
+  useEffect(() => {
+    if (!films && !filmsShowed) {
+      return;
+    }
+    let filterDataShowed = [];
+    let filterData = [];
+
+    if (filmsTumbler) {
+      setFilmsWithTumbler(films);
+      setFilmsShowedWithTumbler(filmsShowed);
+
+      filterData = filmsShowed
+        .concat(films)
+        .filter(({ duration }) => duration <= SHORT_MOVIE);
+      filterDataShowed = filterData.splice(0, MoviesCount[0]);
+    } else {
+      filterDataShowed = filmsShowedWithTumbler;
+      filterData = filmsWithTumbler;
+    }
+
+    setFilmsShowed(filterDataShowed);
+    setFilms(filterData);
+  }, [filmsTumbler]);
 
   return (
     <main className='movies'>

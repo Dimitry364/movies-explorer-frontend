@@ -37,8 +37,11 @@ const SearchForm = ({
 
   useEffect(() => {
     setTumbler(filmsTumbler);
+  }, [filmsTumbler]);
+
+  useEffect(() => {
     setInputSearch(filmsInputSearch);
-  }, [filmsTumbler, filmsInputSearch]);
+  }, [filmsInputSearch]);
 
   return (
     <form className='search'>

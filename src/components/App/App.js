@@ -21,6 +21,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import MainApi from '../../utils/MainApi';
 import Token from '../../utils/token';
 import { CONFLICT_ERROR } from '../../utils/constants';
+import MoviesApi from '../../utils/MoviesApi';
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
@@ -28,6 +29,20 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(true);
   const { pathname } = useLocation();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (loggedIn) {
+      MoviesApi.getMovies()
+        .then((data) => {
+          localStorage.setItem('allMovies', JSON.stringify(data));
+        })
+        .catch((err) => {
+          console.log(
+            'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
+          );
+        });
+    }
+  }, [loggedIn]);
 
   React.useEffect(() => {
     getUserInfo();

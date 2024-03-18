@@ -4,73 +4,53 @@ import { useEffect, useState } from 'react';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 import mainApi from '../../utils/MainApi.js';
+import { SHORT_MOVIE } from '../../utils/constants';
 
 const SavedMovies = () => {
-  const [films, setFilms] = useState(null);
   const [preloader, setPreloader] = useState(false);
   const [errorText, setErrorText] = useState('');
+
   const [filmsTumbler, setFilmsTumbler] = useState(false);
-  // const [filmsInputSearch, setFilmsInputSearch] = useState('');
+  const [filmsInputSearch, setFilmsInputSearch] = useState('');
+
+  const [films, setFilms] = useState([]);
   const [filmsShowed, setFilmsShowed] = useState([]);
-  const [filmsShowedWithTumbler, setFilmsShowedWithTumbler] = useState([]);
   const [filmsWithTumbler, setFilmsWithTumbler] = useState([]);
 
   function handleGetMoviesTumbler(tumbler) {
-    let filterDataShowed = [];
-    let filterData = [];
-
-    if (tumbler) {
-      setFilmsShowedWithTumbler(filmsShowed);
-      setFilmsWithTumbler(films);
-      filterDataShowed = filmsShowed.filter(({ duration }) => duration <= 40);
-      filterData = films.filter(({ duration }) => duration <= 40);
-    } else {
-      filterDataShowed = filmsShowedWithTumbler;
-      filterData = filmsWithTumbler;
-    }
-
-    localStorage.setItem(
-      'films',
-      JSON.stringify(filterDataShowed.concat(filterData))
-    );
-    localStorage.setItem('filmsTumbler', tumbler);
-    setFilmsShowed(filterDataShowed);
-    setFilms(filterData);
+    setFilmsTumbler(tumbler);
   }
 
-  async function handleGetMovies(inputSearch, tumbler) {
+  async function handleGetMovies(inputSearch) {
+    if (!films) {
+      return;
+    }
+
+    if (inputSearch === '') {
+      setFilmsShowed(films);
+      setFilmsWithTumbler(films);
+      setFilmsInputSearch('');
+      setFilmsTumbler(false);
+      return;
+    }
+
+    setFilmsInputSearch(inputSearch);
+
     setErrorText('');
     setPreloader(true);
+    setFilmsTumbler(false);
 
     try {
-      const data = films;
-      let filterData = data.filter(({ nameRU }) =>
+      const filterData = films.filter(({ nameRU }) =>
         nameRU.toLowerCase().includes(inputSearch.toLowerCase())
       );
-
-      if (tumbler)
-        filterData = filterData.filter(({ duration }) => duration <= 40);
-
       setFilmsShowed(filterData);
-
-      if (inputSearch) {
-        localStorage.setItem('savedFilms', JSON.stringify(filterData));
-        localStorage.setItem('savedFilmsTumbler', tumbler);
-        // localStorage.setItem('savedFilmsInputSearch', inputSearch);
-      } else {
-        localStorage.removeItem('savedFilms');
-        localStorage.removeItem('savedFilmsTumbler');
-        // localStorage.removeItem('savedFilmsInputSearch');
-      }
     } catch (err) {
       setErrorText(
         'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
       );
 
-      setFilms([]);
-      localStorage.removeItem('savedFilms');
-      localStorage.removeItem('savedFilmsTumbler');
-      // localStorage.removeItem('savedFilmsInputSearch');
+      setFilmsShowed([]);
     } finally {
       setPreloader(false);
     }
@@ -80,9 +60,12 @@ const SavedMovies = () => {
     if (!favorite) {
       try {
         await mainApi.deleteMovies(film._id);
+
         const newFilms = await mainApi.getMovies();
-        setFilmsShowed(newFilms);
         setFilms(newFilms);
+
+        const removeIndex = filmsShowed.findIndex(({ _id }) => _id == film._id);
+        filmsShowed.splice(removeIndex, 1);
       } catch (err) {
         console.log('Во время удаления фильма произошла ошибка.');
       }
@@ -91,40 +74,42 @@ const SavedMovies = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const localStorageFilms = localStorage.getItem('savedFilms');
-      if (localStorageFilms) {
-        setFilms(JSON.parse(localStorageFilms));
-        const localStorageFilmsTumbler =
-          localStorage.getItem('savedFilmsTumbler');
-        // const localStorageFilmsInputSearch = localStorage.getItem(
-          // 'savedFilmsInputSearch'
-        // );
-
-        if (localStorageFilmsTumbler) {
-          setFilmsTumbler(localStorageFilmsTumbler === 'true');
-        }
-        // if (localStorageFilmsInputSearch) {
-        //   setFilmsInputSearch(localStorageFilmsInputSearch);
-        // }
-      } else {
-        try {
-          const data = await mainApi.getMovies();
-          setFilms(data);
-          setFilmsShowed(data);
-        } catch (err) {
-          console.log(`Ошибка сервера ${err}`);
-        }
+      try {
+        const data = await mainApi.getMovies();
+        setFilms(data);
+        setFilmsShowed(data);
+      } catch (err) {
+        console.log(`Ошибка сервера ${err}`);
       }
     };
     fetchData().catch(console.error);
   }, []);
+
+  useEffect(() => {
+    if (!filmsShowed) {
+      return;
+    }
+
+    let filterData = [];
+
+    if (filmsTumbler) {
+      setFilmsWithTumbler(filmsShowed);
+      filterData = []
+        .concat(filmsShowed)
+        .filter(({ duration }) => duration <= SHORT_MOVIE);
+    } else {
+      filterData = filmsWithTumbler;
+    }
+
+    setFilmsShowed(filterData);
+  }, [filmsTumbler]);
 
   return (
     <main className='saved-movies'>
       <SearchForm
         handleGetMovies={handleGetMovies}
         filmsTumbler={filmsTumbler}
-        // filmsInputSearch={filmsInputSearch}
+        filmsInputSearch={filmsInputSearch}
         handleGetMoviesTumbler={handleGetMoviesTumbler}
       />
       {preloader && <Preloader />}
