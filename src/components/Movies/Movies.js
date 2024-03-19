@@ -8,6 +8,7 @@ import mainApi from '../../utils/MainApi.js';
 import { SHORT_MOVIE, MOVIES_COUNTER_OBJ } from '../../utils/constants';
 
 function Movies() {
+  let [getAllMovies, setGetAllMovies] = useState(null);
   const [films, setFilms] = useState(null);
   const [filmsSaved, setFilmsSaved] = useState(null);
   const [preloader, setPreloader] = useState(false);
@@ -34,9 +35,11 @@ function Movies() {
     setPreloader(true);
 
     try {
-      const data = await moviesApi.getMovies();
+      if (getAllMovies === null) {
+        getAllMovies = await moviesApi.getMovies();
+      }
 
-      let filterData = data.filter(({ nameRU }) =>
+      let filterData = getAllMovies.filter(({ nameRU }) =>
         nameRU.toLowerCase().includes(inputSearch.toLowerCase())
       );
       localStorage.setItem('films', JSON.stringify(filterData));
