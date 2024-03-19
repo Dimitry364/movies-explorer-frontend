@@ -56,7 +56,7 @@
   transition: opacity 0.2s linear;
 }
 
-.card__button_delete:hover {
+.card:hover .card__button_delete {
   opacity: 0.6;
   cursor: pointer;
   background: #313131 url(../../images/icon-delete.svg) center no-repeat;
@@ -79,6 +79,11 @@
 
   .card__title {
     max-width: 290px;
+  }
+
+  .card__button_delete {
+    cursor: pointer;
+    background: #313131 url(../../images/icon-delete.svg) center no-repeat;
   }
 }
 

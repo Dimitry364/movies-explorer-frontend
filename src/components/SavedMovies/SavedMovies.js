@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import './SavedMovies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import { useEffect, useState } from 'react';

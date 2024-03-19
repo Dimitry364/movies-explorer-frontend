@@ -2,10 +2,8 @@ import './Movies.css';
 import React, { useEffect, useState } from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-// import cards from '../../utils/Movies';
-
-import Preloader from '../Preloader/Preloader';
 import moviesApi from '../../utils/MoviesApi';
+import Preloader from '../Preloader/Preloader';
 import mainApi from '../../utils/MainApi.js';
 import { SHORT_MOVIE, MOVIES_COUNTER_OBJ } from '../../utils/constants';
 
@@ -36,7 +34,7 @@ function Movies() {
     setPreloader(true);
 
     try {
-      const data = JSON.parse(localStorage.getItem('allMovies'));
+      const data = await moviesApi.getMovies();
 
       let filterData = data.filter(({ nameRU }) =>
         nameRU.toLowerCase().includes(inputSearch.toLowerCase())
